@@ -1,1 +1,5 @@
 .env
+
+docker build -t go_mini_project:1.0 .
+
+docker run -p 8000:8000 go_mini_project:1.0

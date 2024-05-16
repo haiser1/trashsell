@@ -28,9 +28,9 @@ func (service BuyerServiceImpl) RegisterBuyer(request dto_buyer.BayerRequestRegi
 		return &domain.Buyer{}, err
 	}
 
-	buyer_email, _ := service.BuyerRepository.FindBuyerByEmail(request.Email)
+	buyerEmail, _ := service.BuyerRepository.FindBuyerByEmail(request.Email)
 
-	if buyer_email != nil {
+	if buyerEmail != nil {
 		return &domain.Buyer{}, helper.EmailAlreadyExist
 	}
 
@@ -73,8 +73,8 @@ func (service BuyerServiceImpl) LoginBuyer(request dto_buyer.BuyerRequestLogin) 
 	return token, nil
 }
 
-func (service BuyerServiceImpl) GetDataBuyer() (*domain.Buyer, error) {
-	buyer, err := service.BuyerRepository.GetDataBuyer()
+func (service BuyerServiceImpl) GetDataBuyer(buyerId int) (*domain.Buyer, error) {
+	buyer, err := service.BuyerRepository.FindBuyerById(buyerId)
 	if err != nil {
 		return &domain.Buyer{}, err
 	}

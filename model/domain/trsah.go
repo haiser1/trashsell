@@ -9,6 +9,7 @@ type Trash struct {
 	TypeTrashId int
 	TypeTrash   TypeTrash
 	BuyerId     int
+	Buyer       Buyer
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

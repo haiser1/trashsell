@@ -71,7 +71,8 @@ func (controller *BuyerControllerImpl) LoginBuyerController(c echo.Context) erro
 }
 
 func (controller *BuyerControllerImpl) GetDataBuyerController(c echo.Context) error {
-	buyer, err := controller.BuyerService.GetDataBuyer()
+	buyerId := c.Get("buyerId").(int)
+	buyer, err := controller.BuyerService.GetDataBuyer(buyerId)
 
 	if err != nil {
 		return helper.HandleError(c, err)

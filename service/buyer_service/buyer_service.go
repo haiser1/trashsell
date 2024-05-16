@@ -8,6 +8,6 @@ import (
 type BuyerService interface {
 	RegisterBuyer(request dto_buyer.BayerRequestRegister) (*domain.Buyer, error)
 	LoginBuyer(request dto_buyer.BuyerRequestLogin) (string, error)
-	GetDataBuyer() (*domain.Buyer, error)
+	GetDataBuyer(buyerId int) (*domain.Buyer, error)
 	UpdateBuyer(request dto_buyer.BuyerRequestUpdate, id int) (*domain.Buyer, error)
 }

@@ -43,11 +43,3 @@ func (repository BuyerRepositoryImpl) UpdateBuyer(buyer *domain.Buyer, buyerId i
 	}
 	return buyer, nil
 }
-
-func (repository BuyerRepositoryImpl) GetDataBuyer() (*domain.Buyer, error) {
-	var buyer domain.Buyer
-	if err := repository.DB.Find(&buyer).Error; err != nil {
-		return &domain.Buyer{}, err
-	}
-	return &buyer, nil
-}

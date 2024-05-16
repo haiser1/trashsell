@@ -15,4 +15,5 @@ type TrashService interface {
 	GetTrashById(trashId, buyerId int) (*domain.Trash, error)
 	UpdateTrash(request dto_trashes.TrashRequestUpdate, trashId, buyerId int) (*domain.Trash, error)
 	DelteTrash(trashId, buyerId int) (*domain.Trash, error)
+	GetListTrashPagination(page, pageSize int, nameTrash, typeTrash string, buyerName string) ([]*domain.Trash, error)
 }

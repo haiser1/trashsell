@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	dto_base "mini-project/dto/base"
+	dto_buyer "mini-project/dto/buyer"
 	dto_trashes "mini-project/dto/trashes"
 	"mini-project/helper"
 	service "mini-project/service/trash_service"
@@ -246,4 +247,65 @@ func (controller *TrashControllerImpl) DeleteTrashController(c echo.Context) err
 		Message: "success",
 		Data:    nil,
 	})
+}
+
+func (controller *TrashControllerImpl) GetTrashPagginationController(c echo.Context) error {
+
+	page := c.QueryParam("page")
+	pageSize := c.QueryParam("page_size")
+	trashName := c.QueryParam("name_trash")
+	typeTrash := c.QueryParam("type_trash")
+	buyerName := c.QueryParam("buyer_name")
+	pageInt, _ := strconv.Atoi(page)
+	pageSizeint, _ := strconv.Atoi(pageSize)
+
+	if pageInt == 0 {
+		pageInt = 1
+	}
+
+	if pageSizeint == 0 {
+		pageSizeint = 10
+	}
+
+	trash, err := controller.TrashService.GetListTrashPagination(pageInt, pageSizeint, trashName, typeTrash, buyerName)
+	if err != nil {
+		return helper.HandleError(c, err)
+	}
+
+	data := dto_trashes.TrashResponsePaggination{}
+
+	for _, value := range trash {
+		data.Data = append(data.Data, dto_trashes.TrashResponseDataPaggination{
+			Id:    value.ID,
+			Name:  value.Name,
+			Price: value.Price,
+			Type: dto_trashes.TrashTypeResponse{
+				Id:   value.TypeTrash.ID,
+				Name: value.TypeTrash.Name,
+			},
+			Buyer: dto_buyer.BuyerResponseGetData{
+				Id:       value.Buyer.ID,
+				Name:     value.Buyer.Name,
+				Email:    value.Buyer.Email,
+				Street:   value.Buyer.Street,
+				Province: value.Buyer.Province,
+				Regency:  value.Buyer.Regency,
+				City:     value.Buyer.City,
+			},
+		})
+	}
+
+	res := dto_trashes.TrashResponsePaggination{
+		Data:  data.Data,
+		Total: len(trash),
+		Page:  pageInt,
+		Limit: pageSizeint,
+	}
+
+	return c.JSON(http.StatusOK, dto_base.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    res,
+	})
+
 }

@@ -15,4 +15,5 @@ type TrashRepository interface {
 	GetTrashById(id, buyerId int) (*domain.Trash, error)
 	UpdateTrash(trash *domain.Trash, id int) (*domain.Trash, error)
 	DelteTrash(trashId, buyerId int) (*domain.Trash, error)
+	GetListTrashPagination(page int, pageSize int, nameTrash string, typeTrash string, buyerName string) ([]*domain.Trash, error)
 }

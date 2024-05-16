@@ -118,3 +118,29 @@ func (repository TrashRepositoryImpl) DelteTrash(trashId, buyerId int) (*domain.
 	}
 	return nil, nil
 }
+
+func (repository TrashRepositoryImpl) GetListTrashPagination(page int, pageSize int, nameTrash string, typeTrash string, buyerName string) ([]*domain.Trash, error) {
+	var listTrash []*domain.Trash
+	offset := (page - 1) * pageSize
+	query := repository.DB.Offset(offset).Limit(pageSize)
+
+	query = query.Preload("TypeTrash")
+	query = query.Joins("TypeTrash").Joins("Buyer")
+
+	if buyerName != "" {
+		query = query.Where("buyers.name LIKE ?", "%"+buyerName+"%")
+	}
+	if typeTrash != "" {
+		query = query.Where("type_trashes.name LIKE ?", typeTrash)
+	}
+
+	if nameTrash != "" {
+		query = query.Where("trashes.name LIKE ?", "%"+nameTrash+"%")
+	}
+
+	if err := query.Find(&listTrash).Error; err != nil {
+		return nil, err
+	}
+	fmt.Println(listTrash)
+	return listTrash, nil
+}

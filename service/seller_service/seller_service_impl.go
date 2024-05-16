@@ -33,10 +33,12 @@ func (service SellerServiceImpl) RegisterSeller(request dto_seller.SellerRequest
 	if findEmailSeller != nil {
 		return &domain.Seller{}, helper.EmailAlreadyExist
 	}
+
+	hashPassword, _ := helper.HashPassword(request.Password)
 	seller, err := service.SellerRepository.RegisterSeller(&domain.Seller{
 		Name:     request.Name,
 		Email:    request.Email,
-		Password: request.Password,
+		Password: hashPassword,
 		Street:   request.Street,
 		Regency:  request.Regency,
 		City:     request.City,
@@ -53,9 +55,11 @@ func (service SellerServiceImpl) LoginSeller(request dto_seller.SellerRequestLog
 	if seller == nil {
 		return "", helper.InvalidLogin
 	}
-	if err := helper.ComparePassword(request.Password, seller.Password); err != nil {
+
+	if err := helper.ComparePassword(seller.Password, request.Password); err != nil {
 		return "", helper.InvalidLogin
 	}
+
 	token, err := helper.NewJwtService().GenerateToken(seller.ID, "seller")
 
 	if err != nil {

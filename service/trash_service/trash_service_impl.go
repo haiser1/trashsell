@@ -152,3 +152,8 @@ func (service TrashServiceImpl) DelteTrash(trashId, buyerId int) (*domain.Trash,
 	_, error := service.TrashRepository.DelteTrash(trashId, buyerId)
 	return nil, error
 }
+
+func (service TrashServiceImpl) GetListTrashPagination(page, pageSize int, nameTrash, typeTrash string, buyerName string) ([]*domain.Trash, error) {
+	trash, _ := service.TrashRepository.GetListTrashPagination(page, pageSize, nameTrash, typeTrash, buyerName)
+	return trash, nil
+}

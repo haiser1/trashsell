@@ -16,8 +16,8 @@ paths:
             schema:
               $ref: '#/components/schemas/RequestRegister'
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -41,25 +41,305 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseResponse'
 
+  /buyers:
+    get:
+      summary: Get Buyers Currently
+      tags: [Buyers]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+  /buyer:
+    put:
+      summary: Update Buyer
+      tags: [Buyers]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUpdateUSer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /sellers/register:
+    post:
+      summary: Register Seller
+      tags: [Sellers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestRegister'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+  
+  /sellers/login:
+    post:
+      summary: Login Seller
+      tags: [Sellers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestLogin'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /sellers:
+    get:
+      summary: Get Seller Currently
+      tags: [Sellers]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+  
+  /seller:
+    put:
+      summary: Update Seller
+      tags: [Sellers]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUpdateUSer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/type-trash:
+    post:
+      summary: Create Type Trash
+      tags: [Trash]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTypeTrash'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/types-trash:
+    get:
+      summary: Get All Type Trash
+      tags: [Trash]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+  
+  /buyers/types-trash/{id}:
+    put:
+      summary: Update Type Trash
+      tags: [Trash]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Type Trash id
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTypeTrash'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/trash:
+    post:
+      summary: Create Trash
+      tags: [Trash]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTrashCreateUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/trashes:
+    get:
+      summary: Get All Trash By Buyer Id
+      tags: [Trash]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/trash/{id}:
+    get:
+      summary: Get Trash By Id
+      tags: [Trash]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Trash id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/trashes/{id}:
+    put:
+      summary: Update Trash
+      tags: [Trash]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Trash id
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTrashCreateUpdate'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+  
+  /buyer/trash/{id}:
+    delete:
+      summary: Delete Trash By Id
+      tags: [Trash]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Trash id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+   
+
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     RequestRegister:
       type: object
       properties:
         name:
           type: string
+          example: John Doe
         email:
           type: string
+          format: email
         password:
           type: string
+          example: John123
         street:
           type: string
+          example: Street
         province:
           type: string
+          example: Indonesia
         regency:
           type: string
+          example: Jakarta
         city:
           type: string
+          example: Jakarta
       required:
         - name
         - email
@@ -68,13 +348,68 @@ components:
         - province
         - regency
         - city
+
+    RequestUpdateUSer:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        street:
+          type: string
+          example: Street
+        province:
+          type: string
+          example: Indonesia
+        regency:
+          type: string
+          example: Jakarta
+        city:
+          type: string
+          example: Jakarta
+      required:
+        - name
+        - street
+        - province
+        - regency
+        - city
+
     RequestLogin:
       type: object
       properties:
         email:
           type: string
+          format: email
         password:
           type: string
+          example: John123
+
+    RequestTypeTrash:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Plastik
+      required:
+        - name
+
+    RequestTrashCreateUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: botol aura
+        price:
+          type: number
+          example: 10000
+        type_trash:
+          type: string
+          example: Plastik
+      required:
+        - name
+        - price
+        - type_trash
+  
     BaseResponse:
       type: object
       properties:
@@ -84,3 +419,5 @@ components:
           type: string
         data:
           type: object
+
+        

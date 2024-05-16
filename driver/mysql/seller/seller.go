@@ -1,10 +1,8 @@
-package buyer
+package seller
 
-import (
-	"time"
-)
+import "time"
 
-type Buyer struct {
+type Seller struct {
 	ID        int `gorm:"primaryKey"`
 	Name      string
 	Email     string

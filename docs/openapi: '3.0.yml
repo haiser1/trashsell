@@ -1,0 +1,86 @@
+openapi: '3.0.2'
+info:
+  title: TRASHSELL
+  version: '1.0'
+servers:
+  - url: http://localhost:8000
+paths:
+  /buyers/register:
+    post:
+      summary: Register Buyers
+      tags: [Buyers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestRegister'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /buyers/login:
+    post:
+      summary: Login Buyer
+      tags: [Buyers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestLogin'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+components:
+  schemas:
+    RequestRegister:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        street:
+          type: string
+        province:
+          type: string
+        regency:
+          type: string
+        city:
+          type: string
+      required:
+        - name
+        - email
+        - password
+        - street
+        - province
+        - regency
+        - city
+    RequestLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    BaseResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object

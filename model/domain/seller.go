@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-type Buyer struct {
+type Seller struct {
 	ID        int
 	Name      string
 	Email     string

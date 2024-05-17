@@ -68,8 +68,8 @@ func (service SellerServiceImpl) LoginSeller(request dto_seller.SellerRequestLog
 	return token, nil
 }
 
-func (service SellerServiceImpl) GetDataSeller() (*domain.Seller, error) {
-	seller, err := service.SellerRepository.GetDataSeller()
+func (service SellerServiceImpl) GetDataSeller(sellerId int) (*domain.Seller, error) {
+	seller, err := service.SellerRepository.GetDataSeller(sellerId)
 	if err != nil {
 		return &domain.Seller{}, err
 	}

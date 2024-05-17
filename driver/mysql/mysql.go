@@ -5,6 +5,7 @@ import (
 	"mini-project/driver/mysql/buyer"
 	"mini-project/driver/mysql/seller"
 	"mini-project/driver/mysql/trash"
+	"mini-project/driver/mysql/trash_transaction"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -38,5 +39,5 @@ func Connection(config *Config) *gorm.DB {
 }
 
 func Migrate(db *gorm.DB) {
-	db.AutoMigrate(&buyer.Buyer{}, &trash.TypeTrash{}, &trash.Trash{}, &seller.Seller{})
+	db.AutoMigrate(&buyer.Buyer{}, &trash.TypeTrash{}, &trash.Trash{}, &seller.Seller{}, &trash_transaction.TrashTransaction{})
 }

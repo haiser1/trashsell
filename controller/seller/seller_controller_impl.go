@@ -64,7 +64,8 @@ func (controller SellerControllerImpl) LoginSellerController(c echo.Context) err
 }
 
 func (controller SellerControllerImpl) GetDataSellerController(c echo.Context) error {
-	seller, err := controller.SellerService.GetDataSeller()
+	sellerId := c.Get("sellerId").(int)
+	seller, err := controller.SellerService.GetDataSeller(sellerId)
 	if err != nil {
 		return helper.HandleError(c, err)
 	}

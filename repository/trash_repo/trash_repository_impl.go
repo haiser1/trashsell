@@ -97,8 +97,6 @@ func (repository TrashRepositoryImpl) GetTrashById(id, buyerId int) (*domain.Tra
 	if err := repository.DB.Joins("TypeTrash").Where("trashes.id = ?", id).Where("buyer_id = ?", buyerId).First(&trash).Error; err != nil {
 		return nil, err
 	}
-	// repository.DB.Joins("TypeTrash").Where("buyer_id = ?", buyerId).Find(&trash).Erro
-	fmt.Println("trash: ", trash)
 	return &trash, nil
 }
 
@@ -124,14 +122,13 @@ func (repository TrashRepositoryImpl) GetListTrashPagination(page int, pageSize 
 	offset := (page - 1) * pageSize
 	query := repository.DB.Offset(offset).Limit(pageSize)
 
-	query = query.Preload("TypeTrash")
 	query = query.Joins("TypeTrash").Joins("Buyer")
-
+	fmt.Println(typeTrash)
 	if buyerName != "" {
-		query = query.Where("buyers.name LIKE ?", "%"+buyerName+"%")
+		query = query.Where("Buyer.name LIKE ?", "%"+buyerName+"%")
 	}
 	if typeTrash != "" {
-		query = query.Where("type_trashes.name LIKE ?", typeTrash)
+		query = query.Where("TypeTrash.name LIKE ?", "%"+typeTrash+"%")
 	}
 
 	if nameTrash != "" {

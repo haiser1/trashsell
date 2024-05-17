@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	dto_base "mini-project/dto/base"
 	dto_buyer "mini-project/dto/buyer"
 	dto_trashes "mini-project/dto/trashes"
@@ -89,7 +88,6 @@ func (controller *TrashControllerImpl) UpdateTypeTrashController(c echo.Context)
 	request := dto_trashes.TrashTypeRequestUpdate{}
 
 	typeTrashId := c.Param("id")
-	fmt.Println("typeTrashId: ", typeTrashId)
 
 	id, errConvert := strconv.Atoi(typeTrashId)
 

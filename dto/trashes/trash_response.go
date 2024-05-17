@@ -5,9 +5,10 @@ import (
 )
 
 type TrashResponseGetAll struct {
-	Id   int               `json:"id"`
-	Name string            `json:"name"`
-	Type TrashTypeResponse `json:"type_trash"`
+	Id    int               `json:"id"`
+	Name  string            `json:"name"`
+	Price int               `json:"price"`
+	Type  TrashTypeResponse `json:"type_trash"`
 }
 
 type TrashResponseGetTrashByIdBuyer struct {

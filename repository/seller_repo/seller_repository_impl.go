@@ -44,9 +44,9 @@ func (repository SellerRepositoryImpl) UpdateSeller(seller *domain.Seller, selle
 	return seller, nil
 }
 
-func (repository SellerRepositoryImpl) GetDataSeller() (*domain.Seller, error) {
+func (repository SellerRepositoryImpl) GetDataSeller(sellerId int) (*domain.Seller, error) {
 	var seller domain.Seller
-	if err := repository.DB.Find(&seller).Error; err != nil {
+	if err := repository.DB.Where("id = ?", sellerId).Find(&seller).Error; err != nil {
 		return nil, err
 	}
 	return &seller, nil

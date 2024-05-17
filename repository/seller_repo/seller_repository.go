@@ -7,5 +7,5 @@ type SellerRepository interface {
 	FindSellerByEmail(email string) (*domain.Seller, error)
 	FindSellerById(id int) (*domain.Seller, error)
 	UpdateSeller(seller *domain.Seller, sellerId int) (*domain.Seller, error)
-	GetDataSeller() (*domain.Seller, error)
+	GetDataSeller(sellerId int) (*domain.Seller, error)
 }

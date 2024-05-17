@@ -4,6 +4,7 @@ import (
 	buyer "mini-project/controller/buyer"
 	seller "mini-project/controller/seller"
 	trash_route "mini-project/controller/trash"
+	trash_transaction_route "mini-project/controller/trash_transaction"
 
 	"github.com/labstack/echo/v4"
 
@@ -11,9 +12,10 @@ import (
 )
 
 type RouteController struct {
-	BuyerController  buyer.BuyerController
-	SellerController seller.SellerController
-	TrashController  trash_route.TrashController
+	BuyerController            buyer.BuyerController
+	SellerController           seller.SellerController
+	TrashController            trash_route.TrashController
+	TrashTransactionController trash_transaction_route.TrashTransactionController
 }
 
 func (route RouteController) InitRoute(app *echo.Echo) {
@@ -21,6 +23,7 @@ func (route RouteController) InitRoute(app *echo.Echo) {
 	route.buyerRoute(app)
 	route.sellerRoute(app)
 	route.trashRoute(app)
+	route.trashTransactionRoute(app)
 }
 
 func (route RouteController) publicRoute(app *echo.Echo) {
@@ -46,14 +49,27 @@ func (route RouteController) sellerRoute(app *echo.Echo) {
 	seller.GET("/sellers/trashes", route.TrashController.GetTrashPagginationController)
 }
 
+func (route RouteController) trashTransactionRoute(app *echo.Echo) {
+	trashTransactionSeller := app.Group("", middleware.JwtMiddlewareSeller)
+	trashTransactionSeller.POST("/sellers/trash-transaction/:id", route.TrashTransactionController.CreateTrashTransactionController)
+	trashTransactionSeller.GET("/sellers/trash-transactions", route.TrashTransactionController.GetAllTrashTransactionBySellerId)
+	trashTransactionSeller.GET("/sellers/trash-transaction", route.TrashTransactionController.GetTrashTransactionDoneBySellerIdController)
+
+	trashTransactionBuyer := app.Group("", middleware.JwtMiddlewareBuyer)
+	trashTransactionBuyer.PUT("/buyers/trash-transaction/:id", route.TrashTransactionController.CreateTrashTransactionDoneController)
+	trashTransactionBuyer.GET("/buyers/trash-transactions", route.TrashTransactionController.GetAllTrashTransactionByBuyerId)
+	trashTransactionBuyer.GET("/buyers/trash-transaction", route.TrashTransactionController.GetTrashTransactionDoneByBuyerIdController)
+}
+
 func (route RouteController) trashRoute(app *echo.Echo) {
 	trash := app.Group("", middleware.JwtMiddlewareBuyer)
-	trash.POST("/buyers/type-trash", route.TrashController.CreateTypeTrashController)     //done
-	trash.POST("/buyers/trash", route.TrashController.CreateTrashController)              //done
-	trash.GET("/buyers/types-trash", route.TrashController.GetAllTypeTrashController)     //done
-	trash.GET("/buyers/trashes", route.TrashController.GetAllTrashByBuyerIdController)    //done
-	trash.GET("/buyers/trash/:id", route.TrashController.GetTrashByIdController)          //done
-	trash.PUT("/buyers/trashes/:id", route.TrashController.UpdateTrashController)         //done
-	trash.PUT("/buyers/types-trash/:id", route.TrashController.UpdateTypeTrashController) //done
-	trash.DELETE("/buyer/trash/:id", route.TrashController.DeleteTrashController)         //done
+	trash.POST("/buyers/type-trash", route.TrashController.CreateTypeTrashController)
+	trash.GET("/buyers/types-trash", route.TrashController.GetAllTypeTrashController)
+	trash.PUT("/buyers/types-trash/:id", route.TrashController.UpdateTypeTrashController)
+
+	trash.POST("/buyers/trash", route.TrashController.CreateTrashController)
+	trash.GET("/buyers/trashes", route.TrashController.GetAllTrashByBuyerIdController)
+	trash.GET("/buyers/trash/:id", route.TrashController.GetTrashByIdController)
+	trash.PUT("/buyers/trashes/:id", route.TrashController.UpdateTrashController)
+	trash.DELETE("/buyer/trash/:id", route.TrashController.DeleteTrashController)
 }
